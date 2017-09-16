@@ -24,34 +24,34 @@ The goals / steps of this project are the following:
   
 ## [Rubric](https://review.udacity.com/#!/rubrics/916/view) Points
 ---
-###- Writeup / README
+### - Writeup / README
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.
 
-#####- Here it is
+##### - Here it is
 
-###- Notebook Analysis
+### - Notebook Analysis
 
 #### 1. Run the functions provided in the notebook on test images (first with the test data provided, next on data you have recorded). Add/modify functions to allow for color selection of obstacles and rock samples.
 
 ![alt text][image1]
 
-########**Figure**  **1** : Calibration data plots with all 3 thresholds
+###### **Figure**  **1** : Calibration data plots with all 3 thresholds
 
 ![alt text][image2]
 
-########**Figure**  **2** : Computer vision plots results from notebook
+###### **Figure**  **2** : Computer vision plots results from notebook
 
 #### 2. Populate the `process_image()` function with the appropriate analysis steps to map pixels identifying navigable terrain, obstacles and rock samples into a worldmap.  Run `process_image()` on your test data using the `moviepy` functions provided to create video output of your result.
 ##### A. Did a few modifications to different functions. All details are shown in the jupyter notebook 'Rover_Project_Test_Notebook.ipynb'
 
   ![alt text][image3]
 
-######## **Figure**  **3** : Output Image results with test_dataset provided
+###### **Figure**  **3** : Output Image results with test_dataset provided
 
 ![alt text][image4]
 
-######## **Figure**  **4** :Output Image results with my recorded test data
+###### **Figure**  **4** :Output Image results with my recorded test data
 
 ### - Autonomous Navigation and Mapping
 
