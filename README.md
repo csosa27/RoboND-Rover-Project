@@ -3,7 +3,7 @@ Project: Search and Sample Return
 The goals / steps of this project are the following:
 
 - Training / Calibration:
-  - Download the simulator and take data in &quot;Training Mode&quot;
+  - Download the simulator and take data in "Training Mode"
   - Test out the functions in the Jupyter Notebook provided
   - Add functions to detect obstacles and samples of interest (golden rocks)
   - Fill in the `process_image()` function with the appropriate image processing steps (perspective transform, color threshold etc.) to get from raw images to a map.  The `output_image` you create in this step should demonstrate that your mapping pipeline works.
@@ -43,7 +43,7 @@ The goals / steps of this project are the following:
 ########**Figure**  **2** : Computer vision plots results from notebook
 
 #### 2. Populate the `process_image()` function with the appropriate analysis steps to map pixels identifying navigable terrain, obstacles and rock samples into a worldmap.  Run `process_image()` on your test data using the `moviepy` functions provided to create video output of your result.
-##### A. Did a few modifications to different functions. All details are shown in the jupyter notebook &#39;Rover_Project_Test_Notebook.ipynb&#39;
+##### A. Did a few modifications to different functions. All details are shown in the jupyter notebook 'Rover_Project_Test_Notebook.ipynb'
 
   ![alt text][image3]
 
@@ -68,17 +68,17 @@ The goals / steps of this project are the following:
 		color_select_rock = np.zeros_like(img[:,:,0])
 		color_select_obstacle = np.zeros_like(img[:,:,0])
 		# Threshold for navigable path
-		above_thresh = (img[:,:,0] &gt; rgb_thresh[0]) 
-					&amp; (img[:,:,1] &gt; rgb_thresh[1]) 
-					&amp; (img[:,:,2] &gt; rgb_thresh[2])
+		above_thresh = (img[:,:,0] > rgb_thresh[0]) 
+					& (img[:,:,1] > rgb_thresh[1]) 
+					& (img[:,:,2] > rgb_thresh[2])
 			# Threshold for rocks
-		between_thresh = (img[:,:,0] &gt; rgb_thresh[3] ) 
-					&amp; (img[:,:,1] &gt; rgb_thresh[4] ) 
-					&amp; (img[:,:,2] &lt; rgb_thresh[5] )
+		between_thresh = (img[:,:,0] > rgb_thresh[3] ) 
+					& (img[:,:,1] > rgb_thresh[4] ) 
+					& (img[:,:,2] < rgb_thresh[5] )
 			# Threshold for obstacles
-		below_thresh = (img[:,:,0] &lt; rgb_thresh[0]) 
-					&amp; (img[:,:,1] &lt; rgb_thresh[1]) 
-					&amp; (img[:,:,2] &lt; rgb_thresh[2])
+		below_thresh = (img[:,:,0] < rgb_thresh[0]) 
+					& (img[:,:,1] < rgb_thresh[1]) 
+					& (img[:,:,2] < rgb_thresh[2])
 		# Index the array of zeros with the boolean array and set to 1
 		color_select_path[above_thresh] = 1
 		color_select_rock[between_thresh] = 1
@@ -96,9 +96,9 @@ The goals / steps of this project are the following:
 		outside_field = cv2.warpPerspective(np.ones_like(img[:,:,0]), M, (img.shape[1], img.shape[0]))
 		return warped, outside_field
 
-###### c. Changes to the perception_step() function have been made to apply all the functions previously stated to provide a complete computer vision image that can be used to tell the rover where it can travel and where it can&#39;t, as well as adding the ability to detect rock samples.
+###### c. Changes to the perception_step() function have been made to apply all the functions previously stated to provide a complete computer vision image that can be used to tell the rover where it can travel and where it can't, as well as adding the ability to detect rock samples.
 
-####### - I also applied the to_polar_coords() function to the rock &#39;x&#39; and &#39;y&#39; pixels to provide the rover distance and direction to where the rock samples are, for steering guidance.
+####### - I also applied the to_polar_coords() function to the rock 'x' and 'y' pixels to provide the rover distance and direction to where the rock samples are, for steering guidance.
 
 	def perception_step(Rover):
 	
@@ -161,7 +161,7 @@ The goals / steps of this project are the following:
 	def decision_step(Rover):
 	
 		# Implement conditionals to decide what to do given perception data
-		# Here you&#39;re all set up with some basic functionality but you&#39;ll need to
+		# Here you're all set up with some basic functionality but you'll need to
 		# improve on this decision tree to do a good job of navigating autonomously!
 		# Example:
 		# Check if we have vision data to make decisions with
@@ -170,27 +170,27 @@ The goals / steps of this project are the following:
 			if len(Rover.rock_angles) != 0:
 				Rover.sample_pos_found = Rover.rock_angles
 				Rover.steer = np.clip(np.mean(Rover.rock_angles * 180/np.pi), -15, 15)
-				if len(Rover.rock_angles) &gt;= 20:
+				if len(Rover.rock_angles) >= 20:
 					Rover.sample_pos_found = Rover.rock_dists
-					if Rover.vel &lt; 1:
+					if Rover.vel < 1:
 					# Set throttle value to throttle setting
 						Rover.throttle = 0.1
 						Rover.brake = 0
-					elif Rover.vel &gt;= 1:
+					elif Rover.vel >= 1:
 						Rover.brake = 5
 						Rover.throttle = 0
 					else: # Else coast
 						Rover.throttle = 0
 					Rover.brake = 0
-				elif len(Rover.rock_angles) &lt;= 20:
+				elif len(Rover.rock_angles) <= 20:
 					Rover.sample_pos_found = len(Rover.rock_angles)
-					# Set mode to &quot;stop&quot; and hit the brakes!
+					# Set mode to "stop" and hit the brakes!
 					#Rover.throttle = 0
-					if Rover.vel &lt; 0.7:
+					if Rover.vel < 0.7:
 					# Set throttle value to throttle setting
 						Rover.throttle = 0.1
 						Rover.brake = 0
-					elif Rover.vel &gt;= 0.7:
+					elif Rover.vel >= 0.7:
 						Rover.throttle = 0
 						Rover.brake = 5
 					else: # Else coast
@@ -202,13 +202,13 @@ The goals / steps of this project are the following:
 						Rover.steer = 0
 						if Rover.near_sample and Rover.vel == 0 and not Rover.picking_up:
 							Rover.send_pickup = True
-			elif Rover.mode == &#39;forward&#39; and len(Rover.rock_angles) == 0 and Rover.near_sample == 0:
+			elif Rover.mode == 'forward' and len(Rover.rock_angles) == 0 and Rover.near_sample == 0:
 				Rover.sample_pos_found = len(Rover.rock_angles)
 				# Check the extent of navigable terrain
-				if len(Rover.nav_angles) &gt;= Rover.stop_forward:
+				if len(Rover.nav_angles) >= Rover.stop_forward:
 					# If mode is forward, navigable terrain looks good
 					# and velocity is below max, then throttle
-					if Rover.vel &lt; Rover.max_vel:
+					if Rover.vel < Rover.max_vel:
 						# Set throttle value to throttle setting
 						Rover.throttle = Rover.throttle_set
 					else: # Else coast
@@ -216,39 +216,39 @@ The goals / steps of this project are the following:
 					Rover.brake = 0
 					# Set steering to average angle clipped to the range +/- 15
 					Rover.steer = np.clip(np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
-					# If there&#39;s a lack of navigable terrain pixels then go to &#39;stop&#39; mode
-				elif len(Rover.nav_angles) &lt; Rover.stop_forward:
-					# Set mode to &quot;stop&quot; and hit the brakes!
+					# If there's a lack of navigable terrain pixels then go to 'stop' mode
+				elif len(Rover.nav_angles) < Rover.stop_forward:
+					# Set mode to "stop" and hit the brakes!
 					Rover.throttle = 0
 					# Set brake to stored brake value
 					Rover.brake = Rover.brake_set
 					Rover.steer = 0
-					Rover.mode = &#39;stop&#39;
-				# If we&#39;re already in &quot;stop&quot; mode then make different decisions
-			elif Rover.mode == &#39;stop&#39; and len(Rover.rock_angles) == 0:
-				# If we&#39;re in stop mode but still moving keep braking
-				if Rover.vel &gt; 0.2:
+					Rover.mode = 'stop'
+				# If we're already in "stop" mode then make different decisions
+			elif Rover.mode == 'stop' and len(Rover.rock_angles) == 0:
+				# If we're in stop mode but still moving keep braking
+				if Rover.vel > 0.2:
 					Rover.throttle = 0
 					Rover.brake = Rover.brake_set
 					Rover.steer = 0
-				# If we&#39;re not moving (vel &lt; 0.2) then do something else
-				elif Rover.vel &lt;= 0.2:
-					# Now we&#39;re stopped and we have vision data to see if there&#39;s a path forward
-					if len(Rover.nav_angles) &lt; Rover.go_forward:
+				# If we're not moving (vel < 0.2) then do something else
+				elif Rover.vel <= 0.2:
+					# Now we're stopped and we have vision data to see if there's a path forward
+					if len(Rover.nav_angles) < Rover.go_forward:
 						Rover.throttle = 0
 						# Release the brake to allow turning
 						Rover.brake = 0
 						# Turn range is +/- 15 degrees, when stopped the next line will induce 4-wheel turning
 						Rover.steer = -25 # Could be more clever here about which way to turn
-					# If we&#39;re stopped but see sufficient navigable terrain in front then go!
-					elif len(Rover.nav_angles) &gt;= Rover.go_forward:
+					# If we're stopped but see sufficient navigable terrain in front then go!
+					elif len(Rover.nav_angles) >= Rover.go_forward:
 						# Set throttle back to stored value
 						Rover.throttle = Rover.throttle_set
 						# Release the brake
 						Rover.brake = 0
 						# Set steer to mean angle
 						Rover.steer = np.clip(np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
-						Rover.mode = &#39;forward&#39;
+						Rover.mode = 'forward'
 		else:
 			Rover.throttle = Rover.throttle_set
 			Rover.steer = 0
@@ -257,7 +257,7 @@ The goals / steps of this project are the following:
 
 ##### C. drive_rover.py modifications:
 
-###### a. Made these changes to the __init__() function to provide the extra variables to the rover for storing rock sample distance and angles, along with a string variable that&#39;s used to prompt in different situations for testing and debugging purposes.
+###### a. Made these changes to the __init__() function to provide the extra variables to the rover for storing rock sample distance and angles, along with a string variable that's used to prompt in different situations for testing and debugging purposes.
 
 	def __init__(self):
 
@@ -275,7 +275,7 @@ The goals / steps of this project are the following:
 			self.nav_angles = None # Angles of navigable terrain pixels
 			self.nav_dists = None # Distances of navigable terrain pixels
 			self.ground_truth = ground_truth_3d # Ground truth worldmap
-			self.mode = &#39;forward&#39; # Current mode (can be forward or stop)
+			self.mode = 'forward' # Current mode (can be forward or stop)
 			self.throttle_set = 0.6 # Throttle setting when accelerating
 			self.brake_set = 10 # Brake setting when braking
 			# The stop_forward and go_forward fields below represent total count
@@ -300,8 +300,8 @@ The goals / steps of this project are the following:
 			self.sample_pos_found = None # to print string of sample pos situation
 			self.rock_angles = 0 # rock angles by perception_step
 			self.rock_dists =  0 # rock distances by perception_step
-			self.near_sample = 0 # Will be set to telemetry value data[&quot;near_sample&quot;]
-			self.picking_up = 0 # Will be set to telemetry value data[&quot;picking_up&quot;]
+			self.near_sample = 0 # Will be set to telemetry value data["near_sample"]
+			self.picking_up = 0 # Will be set to telemetry value data["picking_up"]
 			self.send_pickup = False # Set to True to trigger rock pickup
 
 #### 2. Launching in autonomous mode your rover can navigate and map autonomously.  Explain your results and how you might improve them in your writeup.
@@ -322,6 +322,6 @@ Figure 5: Resolution Setup for Simulation
 #
 ###### I applied the perception step functions to provide computer vision leveraging the Rover data set up in the drive_rover.py; from color_thresh() to pix_to_world(). Modified slightly the color_thresh() function to output the 3 threshold required to detect obstacles, path, and rock samples. Furthermore, added directional data to Rover for rock samples by applying to_polar_coords() to rock pixels.
 #
-###### Also, in the decision_step() function, I added simple `if` and `elif` chain events to trigger stopping and slower speeds upon detecting rock samples, with some steering towards the rock pixel angles provided by the perception step (a little rough around the edges but did the trick most of the time). Occasionally, it stops on top of the rock samples and gets stuck. The rover sometimes, stays running around in circles, not sure if this is due to the frames per seconds (FPS) or if it&#39;s perception_step() that could be improved.
+###### Also, in the decision_step() function, I added simple `if` and `elif` chain events to trigger stopping and slower speeds upon detecting rock samples, with some steering towards the rock pixel angles provided by the perception step (a little rough around the edges but did the trick most of the time). Occasionally, it stops on top of the rock samples and gets stuck. The rover sometimes, stays running around in circles, not sure if this is due to the frames per seconds (FPS) or if it's perception_step() that could be improved.
 #
 ###### Would improve time optimization to have the rover run and stop more efficiently. Furthermore, make the rover go back to where it started; this might be tight together with position awareness that would also prevent the rover from running around in circles.
